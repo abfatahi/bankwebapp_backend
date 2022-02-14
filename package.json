@@ -1,0 +1,22 @@
+{
+  "name": "bankwebapp_backend",
+  "version": "1.0.0",
+  "description": "A simple online bank web application APIs",
+  "main": "index.js",
+  "repository": "https://github.com/abfatahi/bankwebapp_backend.git",
+  "author": "abfatahi <abfatahi.iaf@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "express-rate-limit": "^6.2.1",
+    "express-validator": "^6.14.0",
+    "helmet": "^5.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.1",
+    "uuid": "^8.3.2",
+    "v-response": "^1.1.0",
+    "winston": "^3.6.0"
+  }
+}
