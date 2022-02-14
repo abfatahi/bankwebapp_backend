@@ -3,9 +3,24 @@
   "version": "1.0.0",
   "description": "A simple online bank web application APIs",
   "main": "index.js",
+  "type": "module",
   "repository": "https://github.com/abfatahi/bankwebapp_backend.git",
   "author": "abfatahi <abfatahi.iaf@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon -r dotenv/config index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongoose",
+    "rest",
+    "api",
+    "mongodb",
+    "bcrypt"
+  ],
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
@@ -18,5 +33,20 @@
     "uuid": "^8.3.2",
     "v-response": "^1.1.0",
     "winston": "^3.6.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.15"
+  },
+  "nodemonConfig": {
+    "restartable": "yes",
+    "ignore": [
+      "node_modules/**/node_modules"
+    ],
+    "delay": "1500",
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": 4000
+    }
   }
 }
