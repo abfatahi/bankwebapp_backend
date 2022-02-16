@@ -31,4 +31,23 @@ router.post(
   UserController.register
 );
 
+router.post(
+  '/login',
+  [
+    body('email', 'Failed! Email cant be blank')
+      .exists()
+      .bail()
+      .isEmail()
+      .withMessage('Invalid Email format'),
+    body('password', 'Failed! Password cant be blank')
+      .exists()
+      .bail()
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage('Password cant be empty'),
+  ],
+  UserController.login
+);
+
 export default router;
