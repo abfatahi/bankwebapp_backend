@@ -72,7 +72,6 @@ export default () => {
 
       const {
         fullname,
-        email,
         USDBalance,
         EURBalance,
         NGNBalance,
