@@ -27,4 +27,4 @@ const TransferSchema = new mongoose.Schema(
 
 const TransferModel = mongoose.model('TransferModel', TransferSchema);
 
-export default UserModel;
+export default TransferModel;

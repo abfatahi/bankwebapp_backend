@@ -1,1 +1,1 @@
-export { default as ErrorMiddleware } from './Error/error.js';
+export { default as ErrorMiddleware } from './Error.js';
