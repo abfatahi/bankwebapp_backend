@@ -1,6 +1,6 @@
 import express from 'express';
 import { body, header } from 'express-validator';
-import { SharedMiddleware } from '../middlewares';
+import { SharedMiddleware } from '../middlewares/index.js';
 import Controller from '../controllers/User.js';
 
 const UserController = Controller();
