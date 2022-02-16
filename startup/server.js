@@ -5,7 +5,7 @@ import vm from 'v-response';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 // import ApiVersions from '../api/index.js';
-// import ApiRoutes from '../routes/index.js';
+import ApiRoutes from '../routes/index.js';
 import { ErrorMiddleware } from '../middlewares/index.js';
 import { Database } from '../database/index.js';
 
@@ -51,7 +51,7 @@ export default () => {
     res.json({ message: 'Welcome to Online Bank API' });
   });
 
-//   app.use('/api', ApiRoutes); //Api Routes
+  app.use('/api/v1', ApiRoutes); //Api Routes
 
   app.use(ErrorMiddleware); //Error Middleware
 
