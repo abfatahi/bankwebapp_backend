@@ -1,4 +1,4 @@
-import { UserModel } from '../../database/models/index.js';
+import { UserModel } from '../database/models/index.js';
 import jwt from 'jsonwebtoken';
 
 const isUniqueEmail = async (email) => {

@@ -28,7 +28,7 @@ router.post(
       .isLength({ min: 8 })
       .withMessage('Password must be 8 characters or more'),
   ],
-  UserController.sign_up
+  UserController.register
 );
 
 export default router;
