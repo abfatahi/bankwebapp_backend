@@ -42,7 +42,66 @@ export default () => {
     }
   };
 
+  const login = async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty())
+        return res.status(400).json({ errors: errors.array() });
+
+      // Authentication Logic
+      const { email, password } = req.body;
+
+      const User = await UserModel.findOne({ email });
+
+      if (!User)
+        return res
+          .status(400)
+          .json({ errors: [{ message: 'Failed! Invalid login details' }] });
+
+      // compare password
+      const isValidPassword = await bcrypt.compare(password, User.password);
+      if (!isValidPassword)
+        return res
+          .status(400)
+          .json({ errors: [{ message: 'Failed! Incorrect password' }] });
+
+      // Generate customer token
+      const token = jwt.sign({ email: User.email }, process.env.JWT_SECRET, {
+        expiresIn: '10d',
+      });
+
+      const {
+        fullname,
+        email,
+        USDBalance,
+        EURBalance,
+        NGNBalance,
+        accountNumber,
+        isActive,
+        beneficiaries,
+      } = User;
+
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          fullname,
+          email,
+          USDBalance,
+          EURBalance,
+          NGNBalance,
+          accountNumber,
+          isActive,
+          beneficiaries,
+        },
+        token,
+      });
+    } catch (error) {
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+
   return {
     register,
+    login,
   };
 };
