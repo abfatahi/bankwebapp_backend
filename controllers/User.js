@@ -23,14 +23,17 @@ export default () => {
       const users = await UserModel.find();
       const accountNumber = 2300000000 + users.length + 1;
 
+      //create User
       const newUser = new UserModel({
         fullName: req.body.fullName,
         email: new_email,
         accountNumber,
         password: new_password,
       });
-
       newUser.save();
+
+      const { fullName, email } = req.body;
+
       return res
         .status(200)
         .json({ status: 'success', data: { fullName, accountNumber, email } });
