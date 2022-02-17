@@ -1,7 +1,7 @@
-// import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { validationResult } from 'express-validator';
-import { UserModel } from '../database/models/index.js';
+import { UserModel, TransferModel } from '../database/models/index.js';
 
 export default () => {
   const register = async (req, res) => {
@@ -52,7 +52,6 @@ export default () => {
       const { email, password } = req.body;
 
       const User = await UserModel.findOne({ email });
-
       if (!User)
         return res
           .status(400)
@@ -71,7 +70,7 @@ export default () => {
       });
 
       const {
-        fullname,
+        fullName,
         USDBalance,
         EURBalance,
         NGNBalance,
@@ -83,7 +82,7 @@ export default () => {
       return res.status(200).json({
         status: 'success',
         data: {
-          fullname,
+          fullName,
           email,
           USDBalance,
           EURBalance,
@@ -99,8 +98,34 @@ export default () => {
     }
   };
 
+  const allTransactions = async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty())
+        return res.status(400).json({ errors: errors.array() });
+
+      const tokenData = jwt.verify(
+        req.headers.authorization.split(' ')[1],
+        process.env.JWT_SECRET
+      );
+      const User = await UserModel.findOne({ email: tokenData.email });
+      const Transactions = await TransferModel.find({
+        $or: [{ sender: User.accountNumber }, { receiver: User.accountNumber }],
+      });
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          Transactions,
+        },
+      });
+    } catch (error) {
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+
   return {
     register,
     login,
+    allTransactions,
   };
 };
