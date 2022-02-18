@@ -133,10 +133,27 @@ export default () => {
         process.env.JWT_SECRET
       );
       const User = await UserModel.findOne({ email: tokenData.email });
+      const {
+        fullName,
+        USDBalance,
+        EURBalance,
+        NGNBalance,
+        accountNumber,
+        isActive,
+        beneficiaries,
+      } = User;
+      
       return res.status(200).json({
         status: 'success',
         data: {
-          User,
+          fullName,
+          email,
+          USDBalance,
+          EURBalance,
+          NGNBalance,
+          accountNumber,
+          isActive,
+          beneficiaries,
         },
       });
     } catch (error) {
@@ -148,6 +165,6 @@ export default () => {
     register,
     login,
     allTransactions,
-    getUserDetails
+    getUserDetails,
   };
 };
