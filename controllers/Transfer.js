@@ -61,7 +61,7 @@ export default () => {
 
       //Generate New Transfer ID
       const totalTransactions = await TransferModel.find();
-      const transactionId = `REF-10000${totalTransactions + 1}`;
+      const transactionId = `REF-10000${totalTransactions.length + 1}`;
 
       //Debit Source Account
       if (sourceCurrency === 'USD') {
@@ -101,19 +101,55 @@ export default () => {
       }
 
       if (targetCurrency === 'USD') {
-        const newUSDBalance =
-          parseFloat(Receiver.USDBalance) + parseFloat(amount);
-        Receiver.USDBalance = newUSDBalance;
+        if (sourceCurrency === 'NGN') {
+          const newUSDBalance =
+            parseFloat(Receiver.USDBalance) + parseFloat(amount) * 416;
+          Receiver.USDBalance = newUSDBalance;
+        }
+        if (sourceCurrency === 'EUR') {
+          const newUSDBalance =
+            parseFloat(Receiver.USDBalance) + parseFloat(amount) * 0.88;
+          Receiver.USDBalance = newUSDBalance;
+        }
+        if (sourceCurrency === 'USD') {
+          const newUSDBalance =
+            parseFloat(Receiver.USDBalance) + parseFloat(amount);
+          Receiver.USDBalance = newUSDBalance;
+        }
       }
       if (targetCurrency === 'EUR') {
-        const newEURBalance =
-          parseFloat(Receiver.EURBalance) + parseFloat(amount);
-        Receiver.EURBalance = newEURBalance;
+        if (sourceCurrency === 'NGN') {
+          const newEURBalance =
+            parseFloat(Receiver.EURBalance) + parseFloat(amount) * 0.0021;
+          Receiver.EURBalance = newEURBalance;
+        }
+        if (sourceCurrency === 'USD') {
+          const newUSDBalance =
+            parseFloat(Receiver.EURBalance) + parseFloat(amount) * 0.88;
+          Receiver.USDBalance = newUSDBalance;
+        }
+        if (sourceCurrency === 'EUR') {
+          const newEURBalance =
+            parseFloat(Receiver.EURBalance) + parseFloat(amount);
+          Receiver.EURBalance = newEURBalance;
+        }
       }
       if (targetCurrency === 'NGN') {
-        const newNGNBalance =
-          parseFloat(Receiver.NGNBalance) + parseFloat(amount);
-        Receiver.NGNBalance = newNGNBalance;
+        if (sourceCurrency === 'NGN') {
+          const newNGNBalance =
+            parseFloat(Receiver.NGNBalance) + parseFloat(amount);
+          Receiver.NGNBalance = newNGNBalance;
+        }
+        if (sourceCurrency === 'USD') {
+          const newNGNBalance =
+            parseFloat(Receiver.NGNBalance) + parseFloat(amount) * 416;
+          Receiver.NGNBalance = newNGNBalance;
+        }
+        if (sourceCurrency === 'EUR') {
+          const newNGNBalance =
+            parseFloat(Receiver.NGNBalance) + parseFloat(amount) * 475;
+          Receiver.NGNBalance = newNGNBalance;
+        }
       }
       Receiver.save();
 
