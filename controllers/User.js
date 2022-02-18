@@ -123,9 +123,31 @@ export default () => {
     }
   };
 
+  const getUserDetails = async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty())
+        return res.status(400).json({ errors: errors.array() });
+      const tokenData = jwt.verify(
+        req.headers.authorization.split(' ')[1],
+        process.env.JWT_SECRET
+      );
+      const User = await UserModel.findOne({ email: tokenData.email });
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          User,
+        },
+      });
+    } catch (error) {
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+
   return {
     register,
     login,
     allTransactions,
+    getUserDetails
   };
 };

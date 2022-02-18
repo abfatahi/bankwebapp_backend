@@ -99,22 +99,25 @@ export default () => {
           ],
         });
       }
-
+      let newAmount = 0.0;
       if (targetCurrency === 'USD') {
         if (sourceCurrency === 'NGN') {
           const newUSDBalance =
             parseFloat(Receiver.USDBalance) + parseFloat(amount) * 416;
           Receiver.USDBalance = newUSDBalance;
+          newAmount = parseFloat(amount) * 416;
         }
         if (sourceCurrency === 'EUR') {
           const newUSDBalance =
             parseFloat(Receiver.USDBalance) + parseFloat(amount) * 0.88;
           Receiver.USDBalance = newUSDBalance;
+          newAmount = parseFloat(amount) * 0.88;
         }
         if (sourceCurrency === 'USD') {
           const newUSDBalance =
             parseFloat(Receiver.USDBalance) + parseFloat(amount);
           Receiver.USDBalance = newUSDBalance;
+          newAmount = parseFloat(amount);
         }
       }
       if (targetCurrency === 'EUR') {
@@ -122,16 +125,19 @@ export default () => {
           const newEURBalance =
             parseFloat(Receiver.EURBalance) + parseFloat(amount) * 0.0021;
           Receiver.EURBalance = newEURBalance;
+          newAmount = parseFloat(amount) * 0.0021;
         }
         if (sourceCurrency === 'USD') {
           const newUSDBalance =
             parseFloat(Receiver.EURBalance) + parseFloat(amount) * 0.88;
           Receiver.USDBalance = newUSDBalance;
+          newAmount = parseFloat(amount) * 0.88;
         }
         if (sourceCurrency === 'EUR') {
           const newEURBalance =
             parseFloat(Receiver.EURBalance) + parseFloat(amount);
           Receiver.EURBalance = newEURBalance;
+          newAmount = parseFloat(amount);
         }
       }
       if (targetCurrency === 'NGN') {
@@ -139,16 +145,19 @@ export default () => {
           const newNGNBalance =
             parseFloat(Receiver.NGNBalance) + parseFloat(amount);
           Receiver.NGNBalance = newNGNBalance;
+          newAmount = parseFloat(amount);
         }
         if (sourceCurrency === 'USD') {
           const newNGNBalance =
             parseFloat(Receiver.NGNBalance) + parseFloat(amount) * 416;
           Receiver.NGNBalance = newNGNBalance;
+          newAmount = parseFloat(amount) * 416;
         }
         if (sourceCurrency === 'EUR') {
           const newNGNBalance =
             parseFloat(Receiver.NGNBalance) + parseFloat(amount) * 475;
           Receiver.NGNBalance = newNGNBalance;
+          newAmount = parseFloat(amount) * 475;
         }
       }
       Receiver.save();
@@ -157,7 +166,7 @@ export default () => {
         transactionId,
         sender,
         receiver,
-        amount,
+        amount: newAmount,
         sourceCurrency,
         targetCurrency,
         status: 'success',
