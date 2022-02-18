@@ -1,4 +1,6 @@
-import { TransferModel } from '../database/models/index.js';
+import { UserModel, TransferModel } from '../database/models/index.js';
+import { validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 
 export default () => {
   const newTransfer = async (req, res) => {
@@ -11,18 +13,42 @@ export default () => {
         req.headers.authorization.split(' ')[1],
         process.env.JWT_SECRET
       );
+
       const User = await UserModel.findOne({ email: tokenData.email });
 
       const { sourceCurrency, targetCurrency, sender, receiver, amount } =
         req.body;
 
+      //Check sufficient funds
       if (
-        (sourceCurrency === 'USD' &&
-          parseFloat(User.USDBalance) < parseFloat(amount)) ||
-        (sourceCurrency === 'EUR' &&
-          parseFloat(User.EURBalance) < parseFloat(amount)) ||
-        (sourceCurrency === 'NGN' &&
-          parseFloat(User.NGNBalance) < parseFloat(amount))
+        sourceCurrency === 'USD' &&
+        parseFloat(User.USDBalance) < parseFloat(amount)
+      ) {
+        return res.status(400).json({
+          errors: [
+            {
+              message: `Failed! Your ${sourceCurrency} balance is insufficient to perfom this transaction`,
+            },
+          ],
+        });
+      }
+
+      if (
+        sourceCurrency === 'EUR' &&
+        parseFloat(User.EURBalance) < parseFloat(amount)
+      ) {
+        return res.status(400).json({
+          errors: [
+            {
+              message: `Failed! Your ${sourceCurrency} balance is insufficient to perfom this transaction`,
+            },
+          ],
+        });
+      }
+
+      if (
+        sourceCurrency === 'NGN' &&
+        parseFloat(User.NGNBalance) < parseFloat(amount)
       ) {
         return res.status(400).json({
           errors: [
@@ -35,7 +61,7 @@ export default () => {
 
       //Generate New Transfer ID
       const totalTransactions = await TransferModel.find();
-      const transactionId = `REF-${totalTransactions + 1}`;
+      const transactionId = `REF-10000${totalTransactions + 1}`;
 
       //Debit Source Account
       if (sourceCurrency === 'USD') {
