@@ -65,7 +65,7 @@ router.get(
 );
 
 router.get(
-  '/details',
+  '/:accountNumber',
   [
     header(
       'Authorization',
