@@ -50,4 +50,18 @@ router.post(
   UserController.login
 );
 
+router.get(
+  '/transactions/all',
+  [
+    header(
+      'Authorization',
+      'Unauthorized! Sign in to your account for authorization'
+    )
+      .exists()
+      .bail()
+      .custom((value) => SharedMiddleware.isValidUserToken(value)),
+  ],
+  UserController.allTransactions
+);
+
 export default router;

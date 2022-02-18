@@ -18,7 +18,10 @@ const TransferSchema = new mongoose.Schema(
       type: String,
       default: 'pending',
     },
-    currency: {
+    sourceCurrency: {
+      type: String,
+    },
+    targetCurrency: {
       type: String,
     },
   },
