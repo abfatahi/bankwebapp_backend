@@ -49,6 +49,14 @@ const UserSchema = new mongoose.Schema(
     },
     beneficiaries: {
       type: Array,
+      default: [
+        { value: 2300000001, name: 'Ishaq Abdulfatahi' },
+        { value: 2300000002, name: 'Nuri Sahin' },
+        { value: 2300000003, name: 'Mesut Oezil' },
+        { value: 2300000004, name: 'Mark Ruffalo' },
+        { value: 2300000005, name: 'James Wellberg' },
+        { value: 2300000006, name: 'John Fuller' },
+      ],
     },
     isActive: {
       type: Boolean,
