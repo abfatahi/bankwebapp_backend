@@ -64,4 +64,18 @@ router.get(
   UserController.allTransactions
 );
 
+router.get(
+  '/:accountNumber',
+  [
+    header(
+      'Authorization',
+      'Unauthorized! Sign in to your account for authorization'
+    )
+      .exists()
+      .bail()
+      .custom((value) => SharedMiddleware.isValidUserToken(value)),
+  ],
+  UserController.getUserDetails
+);
+
 export default router;
